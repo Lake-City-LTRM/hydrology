@@ -48,14 +48,19 @@ write_csv(dat_wse_ld3tail_collate, 'data/wse_ld3tail_collated.csv')
 dat_q_ld4_orig <- read_csv('data/LockDam_04_Flow_1Day_merged.csv', skip=8, col_select = 1:2, col_names=c("Date.Time", "cfs" ))
 
 #____b) Lock and Dam 8----
-#dat_q_ld8_orig <- read_csv('data/LockDam_08_Flow_1Day_merged.csv', skip=8, col_select = 1:2, col_names=c("Date.Time", "cfs" ))
+dat_q_ld8_orig <- read_csv('data/LockDam_08_Flow_1Day_merged.csv', skip=8, col_select = 1:2, col_names=c("Date.Time", "cfs" ))
+
+#____c) Lock and Dam 10----
+dat_q_ld10_orig <- read_csv('data/LockDam_10_Flow_1Day_merged.csv', skip=8, col_select = 1:2, col_names=c("Date.Time", "cfs" ))
 
 #__2. Format Data ----
 
 ### Add some date columns ###
 
-### 'date' column added to original dataframe ###
+### 'date' column added to original dataframes ###
 dat_q_ld4_orig$date <-as.POSIXct(dat_q_ld4_orig$Date.Time, format = "%m/%d/%Y")
+dat_q_ld8_orig$date <-as.POSIXct(dat_q_ld8_orig$Date.Time, format = "%m/%d/%Y")
+dat_q_ld10_orig$date <-as.POSIXct(dat_q_ld10_orig$Date.Time, format = "%m/%d/%Y")
 
 ### year, month, day, julian added to "collated" dataframe using Lubridate package ###
 dat_q_ld4_collate <- dat_q_ld4_orig  %>%
@@ -64,7 +69,21 @@ dat_q_ld4_collate <- dat_q_ld4_orig  %>%
   mutate(day = day(date) ) %>%
   mutate(julian = yday(date))
 
+dat_q_ld8_collate <- dat_q_ld8_orig  %>%
+  mutate(year = year(date) ) %>%
+  mutate(month = month(date) ) %>%
+  mutate(day = day(date) ) %>%
+  mutate(julian = yday(date))
+
+dat_q_ld10_collate <- dat_q_ld10_orig  %>%
+  mutate(year = year(date) ) %>%
+  mutate(month = month(date) ) %>%
+  mutate(day = day(date) ) %>%
+  mutate(julian = yday(date))
+
 #__3. Output Collated Data----
 write_csv(dat_q_ld4_collate, 'data/q_ld4_collated.csv')
+write_csv(dat_q_ld8_collate, 'data/q_ld8_collated.csv')
+write_csv(dat_q_ld10_collate, 'data/q_ld10_collated.csv')
 
 
